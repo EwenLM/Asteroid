@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://cesibockpv847"]
+
+[ext_resource type="Script" path="res://Scenes/projectile/script/projectile.gd" id="1_xgg2h"]
+[ext_resource type="Texture2D" uid="uid://ol4ago7ta1to" path="res://Scenes/projectile/sprites/ProjectileSpriteSheet.png" id="2_ru2ok"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvkdk"]
+atlas = ExtResource("2_ru2ok")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77y15"]
+atlas = ExtResource("2_ru2ok")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvtoq"]
+atlas = ExtResource("2_ru2ok")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_me3ul"]
+atlas = ExtResource("2_ru2ok")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dgaer"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bvkdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77y15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvtoq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_me3ul")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="Projectile" type="Node2D"]
+script = ExtResource("1_xgg2h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-3, 0)
+sprite_frames = SubResource("SpriteFrames_dgaer")
+autoplay = "default"
