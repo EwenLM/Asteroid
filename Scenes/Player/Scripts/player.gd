@@ -14,6 +14,8 @@ var direction := Vector2.ZERO
 var last_direction := Vector2.ZERO
 
 signal projectile_fired(projectile)
+signal destoyed
+
 
 func _ready() ->void:
 	pass
@@ -63,4 +65,5 @@ func rotate_toward_mouse() -> void:
 	rotation = lerp_angle(rotation, angle, rotation_accel_factor)
 
 func destroy() -> void:
+	destoyed.emit()
 	queue_free()

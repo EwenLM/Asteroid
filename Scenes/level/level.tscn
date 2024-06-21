@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://tuhvlppxjhf2"]
+[gd_scene load_steps=6 format=3 uid="uid://tuhvlppxjhf2"]
 
 [ext_resource type="Script" path="res://Scenes/level/script/level.gd" id="1_afjur"]
 [ext_resource type="PackedScene" uid="uid://c4i13ks7edvnr" path="res://Scenes/Player/player.tscn" id="1_l00yc"]
 [ext_resource type="Script" path="res://Scenes/level/script/projectile_factory.gd" id="2_s7ahv"]
 [ext_resource type="PackedScene" uid="uid://d1hnlyh1pva4s" path="res://Scenes/asteroid/asteroid.tscn" id="2_wv6b6"]
+[ext_resource type="Texture2D" uid="uid://bl1dddfvyrop2" path="res://Scenes/level/Sprites/Background.png" id="5_pfs5i"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_afjur")
@@ -14,7 +15,17 @@ position = Vector2(252, 139)
 
 [node name="ProjectileFactory" type="Node2D" parent="."]
 script = ExtResource("2_s7ahv")
-metadata/_edit_lock_ = true
+
+[node name="Asteroids" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="SpawTimer" type="Timer" parent="Asteroids"]
+autostart = true
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(239, 137)
+texture = ExtResource("5_pfs5i")
 
 [node name="Border" type="CanvasLayer" parent="."]
 
@@ -33,7 +44,40 @@ theme_override_constants/margin_bottom = -20
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Asteroids" type="Node2D" parent="."]
-unique_name_in_owner = true
+[node name="GameOverLayer" type="CanvasLayer" parent="."]
 
+[node name="GameOver" type="Control" parent="GameOverLayer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="GameOverLayer/GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverLayer/GameOver/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="Label" type="Label" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Game Over"
+
+[node name="RetryButton" type="Button" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Retry"
+
+[connection signal="destoyed" from="Player" to="." method="_on_player_destoyed"]
 [connection signal="projectile_fired" from="Player" to="ProjectileFactory" method="spawn_projectile"]
+[connection signal="timeout" from="Asteroids/SpawTimer" to="." method="_on_spaw_timer_timeout"]
+[connection signal="pressed" from="GameOverLayer/GameOver/CenterContainer/VBoxContainer/RetryButton" to="." method="_on_retry_button_pressed"]
